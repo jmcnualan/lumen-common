@@ -1,0 +1,23 @@
+{
+    "name": "dmn/cmn",
+    "description": "For lumen",
+    "type": "library",
+    "license": "proprietary",
+    "authors": [
+        {
+            "name": "martin"
+        }
+    ],
+    "require": {
+        "dmn/exception": "^1.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Dmn\\Cmn\\": "/src"
+        }
+    },
+    "require-dev": {
+        "tymon/jwt-auth": "1.0.x-dev",
+        "orchestra/testbench": "^6.19"
+    }
+}
