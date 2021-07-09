@@ -16,7 +16,7 @@
             "Dmn\\Cmn\\": "/src"
         },
         "files": [
-            "helpers.php"
+            "helpers/general.php"
         ]
     },
     "require-dev": {
