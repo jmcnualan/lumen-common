@@ -14,7 +14,10 @@
     "autoload": {
         "psr-4": {
             "Dmn\\Cmn\\": "/src"
-        }
+        },
+        "files": [
+            "helpers.php"
+        ]
     },
     "require-dev": {
         "tymon/jwt-auth": "1.0.x-dev",
