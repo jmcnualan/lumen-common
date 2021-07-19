@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Console\Commands;
+namespace Dmn\Cmn\Console\Commands;
 
 use Anik\Amqp\ConsumableMessage;
 use Anik\Amqp\Facades\Amqp;

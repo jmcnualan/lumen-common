@@ -2,7 +2,7 @@
 
 namespace Dmn\Cmn;
 
-use App\Console\Commands\RabbitConsume;
+use Dmn\Cmn\Console\Commands\RabbitConsume;
 use Illuminate\Support\ServiceProvider as BaseServiceProvider;
 
 class ServiceProvider extends BaseServiceProvider
