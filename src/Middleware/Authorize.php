@@ -24,11 +24,27 @@ class Authorize extends BaseAuthorize
     public function handle($request, Closure $next, $ability, ...$models)
     {
         try {
+            $this->defineGate();
             $this->gate->authorize($ability, $this->getGateArguments($request, $models));
         } catch (AuthorizationException $exception) {
             throw new ForbiddenException();
         }
 
         return $next($request);
+    }
+
+    /**
+     * Define user permissions on gate
+     */
+    protected function defineGate(): void
+    {
+        $userPermissions = auth()->payload()['scope'];
+        $userPermissions = explode(' ', $userPermissions) ?? [];
+
+        foreach ($userPermissions as $userPermission) {
+            $this->gate->define($userPermission, function () {
+                return true;
+            });
+        }
     }
 }
