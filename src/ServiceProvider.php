@@ -18,4 +18,17 @@ class ServiceProvider extends BaseServiceProvider
             RabbitConsume::class,
         ]);
     }
+
+    /**
+     * Register any application services.
+     *
+     * @return void
+     */
+    public function register()
+    {
+        $this->app->instance(
+            'path.config',
+            app()->basePath() . DIRECTORY_SEPARATOR . 'config'
+        );
+    }
 }
