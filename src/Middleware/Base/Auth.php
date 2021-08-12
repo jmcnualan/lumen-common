@@ -3,7 +3,6 @@
 namespace Dmn\Cmn\Middleware\Base;
 
 use Closure;
-use Dmn\Cmn\Middleware\Traits\CheckExpiration;
 use Dmn\Exceptions\TokenExpiredException as DmnTokenExpiredException;
 use Dmn\Exceptions\UnauthorizedException;
 use Illuminate\Contracts\Auth\Factory as AuthFactory;
@@ -12,8 +11,6 @@ use Tymon\JWTAuth\Exceptions\TokenExpiredException;
 
 abstract class Auth
 {
-    use CheckExpiration;
-
     /**
      * The authentication guard factory instance.
      *
@@ -45,9 +42,7 @@ abstract class Auth
         try {
             $this->auth();
         } catch (TokenExpiredException $exception) {
-            if (true === $this->checkExpiration()) {
-                throw new DmnTokenExpiredException();
-            }
+            throw new DmnTokenExpiredException();
         } catch (JWTException $exception) {
             throw new UnauthorizedException();
         }
