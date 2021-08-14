@@ -67,7 +67,7 @@ class RabbitConsume extends Command
         $configuration = $this->getConfiguration();
         $command       = $this;
         $event         = $this->argument('event');
-        $w = Amqp::consume(
+        Amqp::consume(
             function (ConsumableMessage $message) use ($event, $eventClass, $command) {
                 $rawMessage = $message->getStream() . PHP_EOL;
                 $content    = json_decode($rawMessage, true);
@@ -95,7 +95,6 @@ class RabbitConsume extends Command
             $routingKey,
             $configuration
         );
-        dd($w);
     }
 
     /**
