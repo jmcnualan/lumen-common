@@ -68,7 +68,7 @@ class RabbitConsume extends Command
         Amqp::consume(
             function (ConsumableMessage $message) use ($eventClass) {
                 $rawMessage = $message->getStream() . PHP_EOL;
-                $content    = json_decode($rawMessage);
+                $content    = json_decode($rawMessage, true);
                 try {
                     event(new $eventClass($content));
                     $message->getDeliveryInfo()->acknowledge();
