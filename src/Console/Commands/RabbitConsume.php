@@ -86,6 +86,10 @@ class RabbitConsume extends Command
                         'REJECTED['
                         . $event
                         . ']['
+                        . $e->getFile()
+                        . ':'
+                        . $e->getLine()
+                        . ':'
                         . $e->getMessage()
                         . ']: '
                         .  $rawMessage
