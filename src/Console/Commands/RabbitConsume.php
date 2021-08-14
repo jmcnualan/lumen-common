@@ -67,12 +67,25 @@ class RabbitConsume extends Command
         $configuration = $this->getConfiguration();
         Amqp::consume(
             function (ConsumableMessage $message) use ($eventClass) {
-                $content = json_decode($message->getStream() . PHP_EOL, true);
+                $rawMessage = $message->getStream() . PHP_EOL;
+                $content    = json_decode($rawMessage);
                 try {
                     event(new $eventClass($content));
                     $message->getDeliveryInfo()->acknowledge();
+                    $this->info(
+                        'Acknowledged['
+                        . $this->argument('event')
+                        . ']: '
+                        .  $rawMessage
+                    );
                 } catch (\Exception $e) {
                     $message->getDeliveryInfo()->reject();
+                    $this->error(
+                        'Rejected['
+                        . $this->argument('event')
+                        . ']: '
+                        .  $rawMessage
+                    );
                 }
             },
             $routingKey,
