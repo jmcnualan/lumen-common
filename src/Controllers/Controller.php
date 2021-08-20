@@ -10,19 +10,19 @@ class Controller extends BaseController
     /**
      * Get per page
      *
-     * @param int $limit
-     * @param int $maxPerPage
+     * @param int $default
+     * @param int $max
      *
      * @return int
      */
-    protected function getPerPage(int $limit = 50, int $maxPerPage = 100): int
+    protected function getPerPage(int $default = 50, int $max = 100): int
     {
-        $default = config('pagination.default_per_page', $limit);
+        $default = config('pagination.default_per_page', $default);
 
         $perPage = request()->get('per_page', $default);
 
-        if ($perPage > $maxPerPage) {
-            $perPage = $maxPerPage;
+        if ($perPage > $max) {
+            $perPage = $max;
         }
 
         return $perPage;
