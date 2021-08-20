@@ -1,6 +1,6 @@
 <?php
 
-namespace Dmn\Cmn\Rues;
+namespace Dmn\Cmn\Rules;
 
 use Illuminate\Contracts\Validation\Rule;
 
