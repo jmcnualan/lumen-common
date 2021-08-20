@@ -1,6 +1,6 @@
 <?php
 
-namespace Dmn\Cmn\Rues\ValidSort;
+namespace Dmn\Cmn\Rues;
 
 use Illuminate\Contracts\Validation\Rule;
 
