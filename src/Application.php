@@ -27,9 +27,9 @@ class Application extends LumenApplication
     public function information()
     {
         return [
-            'name' => config('app.name'),
+            'name' => env('APP_NAME'),
             'version' => $this->version(),
-            'timezone' => config('app.timezone'),
+            'timezone' => env('APP_TIMEZONE'),
             'timestamp' => new Carbon(),
             'client_ip' => request()->ip(),
         ];
