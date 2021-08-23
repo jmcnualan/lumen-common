@@ -19,8 +19,19 @@
             "helpers/general.php"
         ]
     },
+    "autoload-dev": {
+        "classmap": [
+            "tests/"
+        ],
+        "psr-4": {
+            "Tests\\": "tests/",
+            "Dmn\\Cmn\\": "src/"
+        }
+    },
     "require-dev": {
         "tymon/jwt-auth": "1.0.x-dev",
-        "orchestra/testbench": "^6.19"
+        "orchestra/testbench": "^6.19",
+        "elasticsearch/elasticsearch": "^7.11",
+        "laravel/lumen-framework": "^8"
     }
 }
