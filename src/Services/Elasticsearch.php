@@ -79,15 +79,15 @@ class Elasticsearch
                 ],
             ];
 
-            $games = $this->client->search($builder)['hits']['hits'];
+            $response = $this->client->search($builder)['hits']['hits'];
         } catch (Exception $e) {
             $response = json_decode($e->getMessage(), true);
             throw new ExceptionsException($response['error']['reason']);
         }
 
-        if (empty($games)) {
+        if (empty($response)) {
             throw new ResourceNotFoundException($this->index);
         }
-        return Arr::first($games);
+        return Arr::first($response);
     }
 }

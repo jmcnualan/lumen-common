@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "dmn/exception",
-            "version": "v2.0.0",
+            "version": "v2.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/jmcnualan/lumen-exception.git",
-                "reference": "c22abb1d9dc5f5d8a20706b088272c61dcf77110"
+                "reference": "44a97887af548469f48b7560d11031e3b2dd7479"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jmcnualan/lumen-exception/zipball/c22abb1d9dc5f5d8a20706b088272c61dcf77110",
-                "reference": "c22abb1d9dc5f5d8a20706b088272c61dcf77110",
+                "url": "https://api.github.com/repos/jmcnualan/lumen-exception/zipball/44a97887af548469f48b7560d11031e3b2dd7479",
+                "reference": "44a97887af548469f48b7560d11031e3b2dd7479",
                 "shasum": ""
             },
             "require-dev": {
@@ -44,9 +44,9 @@
             "description": "Exceptions for lumen",
             "support": {
                 "issues": "https://github.com/jmcnualan/lumen-exception/issues",
-                "source": "https://github.com/jmcnualan/lumen-exception/tree/v2.0.0"
+                "source": "https://github.com/jmcnualan/lumen-exception/tree/v2.0.1"
             },
-            "time": "2021-08-17T09:32:42+00:00"
+            "time": "2021-08-24T02:11:17+00:00"
         }
     ],
     "packages-dev": [
