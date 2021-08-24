@@ -7,7 +7,7 @@ trait ValidSortDataProvider
     /**
      * @return array
      */
-    public function listGameSessionPayload(): array
+    public function validSortPayload(): array
     {
         return [
             [
@@ -26,7 +26,7 @@ trait ValidSortDataProvider
     /**
      * @return array
      */
-    public function listGameSessionNegativePayload(): array
+    public function validSortNegativePayload(): array
     {
         return [
             [

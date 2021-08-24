@@ -2,41 +2,28 @@
 
 namespace Tests;
 
-use Dmn\Cmn\Elasticsearch\Elasticsearch;
-use Dmn\Exceptions\ESNoHitsFoundException;
+use Dmn\Cmn\Services\Elasticsearch;
+use Dmn\Exceptions\ResourceNotFoundException;
+use Elasticsearch\Common\Exceptions\Missing404Exception;
 use GuzzleHttp\Ring\Client\MockHandler;
-use Elasticsearch\ClientBuilder;
+use Illuminate\Foundation\Application;
 use Orchestra\Testbench\TestCase;
 
 class ElasticsearchTest extends TestCase
 {
     /**
-     * @test
+     * @param Application $app
      */
-    public function esFindByUuidError(): void
+    protected function getEnvironmentSetUp($app)
     {
-        $this->expectException(ESNoHitsFoundException::class);
-        $this->mockEsEs('table1_no_hits');
-        (new Elasticsearch())->findByUuid('table1', '0ba74cd0-e5d2-4547-b715-447925943ab1');
-    }
-
-    /**
-     * @test
-     */
-    public function esFindByUuid(): void
-    {
-        $this->mockEsEs('table1');
-        $response = (new Elasticsearch())->findByUuid('table1', '0ba74cd0-e5d2-4547-b715-447925943ab1');
-        $this->assertIsArray($response);
-        $this->assertArrayHasKey('id', $response);
-        $this->assertArrayHasKey('created_at', $response);
-        $this->assertArrayHasKey('updated_at', $response);
+        $config = require __DIR__ . '/../src/config/elasticsearch.php';
+        $app['config']->set('elasticsearch', $config);
     }
 
     /**
      * @param string $file
      */
-    private function mockEsEs(string $file): void
+    private function setEsEsHandler(string $file): void
     {
         $handler = new MockHandler([
             'status' => 200,
@@ -46,20 +33,89 @@ class ElasticsearchTest extends TestCase
             'body' => fopen(__DIR__ . "/Responses/Elasticsearch/$file.json", 'r'),
             'effective_url' => 'localhost'
         ]);
-        $builder = ClientBuilder::create();
-        $builder->setHosts(['test']);
-        $builder->setHandler($handler);
-        $client = $builder->build();
 
-        $this->app['config']->set('elastic_search.handler', $client);
+        $this->app['config']->set('elasticsearch.connections.table1.handler', $handler);
+    }
+
+    /**
+     * Return exception error on ES
+     */
+    private function setEsEsHandlerToError(): void
+    {
+        $handler = new MockHandler([new Missing404Exception()]);
+
+        $this->app['config']->set('elasticsearch.connections.table1.handler', $handler);
     }
 
     /**
      * @test
      */
-    public function testOriginalConstructor(): void
+    public function esFindByUuidNotFound(): void
     {
-        $this->app['config']->set('elastic_search.handler', null);
-        $this->assertInstanceOf(Elasticsearch::class, (new Elasticsearch()));
+        $this->expectException(ResourceNotFoundException::class);
+
+        $this->setEsEsHandler('table1_no_hits');
+        $es = (new Elasticsearch(config('elasticsearch.connections.table1')));
+        $es->findOrFail(['uuid' => '0ba74cd0-e5d2-4547-b715-447925943ab1']);
+    }
+
+    /**
+     * @test
+     */
+    public function esFindByUuidError(): void
+    {
+        $this->expectException(\Exception::class);
+
+        $this->setEsEsHandlerToError();
+        $es = (new Elasticsearch(config('elasticsearch.connections.table1')));
+        $es->findOrFail(['uuid' => '0ba74cd0-e5d2-4547-b715-447925943ab1']);
+    }
+
+    /**
+     * @test
+     */
+    public function esFindByUuid(): void
+    {
+        $this->setEsEsHandler('table1');
+        $es = (new Elasticsearch(config('elasticsearch.connections.table1')));
+        $response = $es->findOrFail(['uuid' => '0ba74cd0-e5d2-4547-b715-447925943ab1']);
+
+        $this->assertIsArray($response);
+        $this->assertArrayHasKey('_source', $response);
+    }
+
+    /**
+     * @test
+     */
+    public function search(): void
+    {
+        $this->setEsEsHandler('table1');
+        $es = (new Elasticsearch(config('elasticsearch.connections.table1')));
+        $params['bool']['must'][] = [
+            'terms' => [
+                'field1' => 'value1',
+            ],
+        ];
+        $response = $es->search($params);
+
+        $this->assertIsArray($response);
+        $this->assertArrayHasKey('hits', $response);
+    }
+
+    /**
+     * @test
+     */
+    public function searchError(): void
+    {
+        $this->expectException(\Exception::class);
+
+        $this->setEsEsHandlerToError();
+        $es = (new Elasticsearch(config('elasticsearch.connections.table1')));
+        $params['bool']['must'][] = [
+            'terms' => [
+                'field1' => 'value1',
+            ],
+        ];
+        $es->search($params);
     }
 }

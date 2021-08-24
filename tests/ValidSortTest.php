@@ -13,7 +13,7 @@ class ValidSortTest extends TestCase
 
     /**
      * @test
-     * @dataProvider listGameSessionPayload
+     * @dataProvider validSortPayload
      * @param array $payload
      */
     public function validSortTest(array $payload)
@@ -29,7 +29,7 @@ class ValidSortTest extends TestCase
 
     /**
      * @test
-     * @dataProvider listGameSessionNegativePayload
+     * @dataProvider validSortNegativePayload
      * @param array $payload
      * @param array $error
      */
