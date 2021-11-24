@@ -18,7 +18,7 @@ trait AuthHeaders
      * @param string $prv
      * @param string $issuer
      * @param string $aud
-     *
+     * @param array $claims
      * @return array
      */
     protected function authHeaders(
@@ -28,7 +28,8 @@ trait AuthHeaders
         string $jti = 'jfh3jsuc52kc82452m',
         string $prv = 'js852mdl93j5hn398jdjs852mdl93j5hn398jd',
         string $issuer = 'issuer',
-        string $aud = 'aud'
+        string $aud = 'aud',
+        array $claims = []
     ): array {
         if (true === is_null($dateTime)) {
             $dateTime = new Carbon();
@@ -42,6 +43,7 @@ trait AuthHeaders
             ->nbf($dateTime)
             ->jti($jti)
             ->prv($prv)
+            ->claims($claims)
             ->make();
 
         return [
