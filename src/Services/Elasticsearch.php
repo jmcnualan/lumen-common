@@ -90,4 +90,26 @@ class Elasticsearch
         }
         return Arr::first($response);
     }
+
+    /**
+     * @param int $id
+     * @param array $body
+     * @return array
+     * @throws ExceptionsException
+     */
+    public function update(int $id, array $body): array
+    {
+        try {
+            $params = [
+                'id' => $id,
+                'index' => $this->index,
+                'body' => $body
+            ];
+
+            return $this->client->update($params);
+        } catch (Exception $e) {
+            $response = json_decode($e->getMessage(), true);
+            throw new ExceptionsException($response['error']['caused_by']['reason']);
+        }
+    }
 }

@@ -118,4 +118,49 @@ class ElasticsearchTest extends TestCase
         ];
         $es->search($params);
     }
+
+    /**
+     * @test 
+     * @testdox It should successfully update es document
+     */
+    public function esUpdate(): void
+    {
+        $this->setEsEsHandler('update_table1');
+        $es = (new Elasticsearch(config('elasticsearch.connections.table1')));
+        $body = [
+            'script' => [
+                'lang' => 'painless',
+                'source' => "doc['my_field'].value * params['field2']}",
+                'params' => [
+                    "field2" => 2
+                ]
+            ]
+
+        ];
+        $response = $es->update(1, $body);
+        $this->assertEquals($response['result'], 'updated');
+    }
+
+    /**
+     * @test
+     * @testdox It should throw error when trying update non-existing es document
+     */
+    public function esUpdateError(): void
+    {
+        $this->expectException(\Exception::class);
+        $this->setEsEsHandlerToError();
+
+        $es = (new Elasticsearch(config('elasticsearch.connections.table1')));
+        $body = [
+            'script' => [
+                'lang' => 'painless',
+                'source' => "doc['my_field'].value * params['field2']",
+                'params' => [
+                    "field2" => 2
+                ]
+            ]
+
+        ];
+        $es->update(1, $body);
+    }
 }
