@@ -29,7 +29,7 @@ class Application extends LumenApplication
         return [
             'name' => config('app.name'),
             'version' => $this->version(),
-            'timezone' => config('app.timezone'),
+            'timezone' => date_default_timezone_get(),
             'timestamp' => new Carbon(),
             'client_ip' => request()->ip(),
         ];
