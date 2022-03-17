@@ -1,0 +1,14 @@
+{
+    "_index" : "table1",
+    "_type" : "_doc",
+    "_id" : "1",
+    "_version" : 23,
+    "result" : "updated",
+    "_shards" : {
+        "total" : 1,
+            "successful" : 1,
+            "failed" : 0
+    },
+    "_seq_no" : 40,
+    "_primary_term" : 114
+}
