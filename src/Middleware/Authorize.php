@@ -18,7 +18,6 @@ class Authorize extends BaseAuthorize
      * @param array|null ...$models
      * @return mixed
      *
-     * @throws \Illuminate\Auth\AuthenticationException
      * @throws ForbiddenException
      */
     public function handle($request, Closure $next, $ability, ...$models)
@@ -38,13 +37,43 @@ class Authorize extends BaseAuthorize
      */
     protected function defineGate(): void
     {
-        $userPermissions = auth()->payload()['scope'];
-        $userPermissions = explode(' ', $userPermissions) ?? [];
-
-        foreach ($userPermissions as $userPermission) {
-            $this->gate->define($userPermission, function () {
-                return true;
-            });
+        $scope = auth()->payload()['scope'];
+        if ($scope) {
+            $this->definePermissions(explode(' ', $scope));
         }
+    }
+
+    /**
+     * @param array $userPermissions
+     * @return void
+     */
+    public function definePermissions(array $userPermissions): void
+    {
+        foreach ($userPermissions as $userPermission){
+            list($permission, $access) =  explode(':', $userPermission, 2);
+            $access = str_split($access);
+            array_walk($access, function ($value, $key) use ($permission) {
+                $value = $this->translateAccess($value) . "_$permission";
+                $this->gate->define($value, function () {
+                    return true;
+                });
+            });
+            $scope = array_merge($scope, $access);
+        }
+    }
+
+    /**
+     * @param string $access
+     * @return string
+     */
+    public function translateAccess(string $access): string
+    {
+        return match ($access) {
+            'r' => 'view',
+            'w' => 'create',
+            'u' => 'update',
+            'd' => 'delete',
+            'x' => 'execute'
+        };
     }
 }
