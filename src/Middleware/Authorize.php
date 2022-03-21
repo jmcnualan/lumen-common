@@ -52,13 +52,12 @@ class Authorize extends BaseAuthorize
         foreach ($userPermissions as $userPermission){
             list($permission, $access) =  explode(':', $userPermission, 2);
             $access = str_split($access);
-            array_walk($access, function ($value, $key) use ($permission) {
+            array_walk($access, function ($value) use ($permission) {
                 $value = $this->translateAccess($value) . "_$permission";
                 $this->gate->define($value, function () {
                     return true;
                 });
             });
-            $scope = array_merge($scope, $access);
         }
     }
 
