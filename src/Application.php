@@ -10,7 +10,7 @@ class Application extends LumenApplication
     /**
      * {@inheritDoc}
      */
-    public function version()
+    public function apiVersion()
     {
         return @str_replace(
             "\n",
@@ -28,7 +28,7 @@ class Application extends LumenApplication
     {
         return [
             'name' => env('APP_NAME'),
-            'version' => $this->version(),
+            'version' => $this->apiVersion(),
             'timezone' => date_default_timezone_get(),
             'timestamp' => new Carbon(),
             'client_ip' => request()->ip(),
