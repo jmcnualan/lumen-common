@@ -37,7 +37,7 @@ class Authorize extends BaseAuthorize
      */
     protected function defineGate(): void
     {
-        $scope = auth()->payload()['scope'];
+        $scope = request()->user()->scope ?? null;
         if ($scope) {
             $this->definePermissions(explode(' ', $scope));
         }
