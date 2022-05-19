@@ -109,7 +109,7 @@ class Elasticsearch
             return $this->client->update($params);
         } catch (Exception $e) {
             $response = json_decode($e->getMessage(), true);
-            throw new ExceptionsException($response['error']['caused_by']['reason']);
+            throw new ExceptionsException($response['error']);
         }
     }
 }
