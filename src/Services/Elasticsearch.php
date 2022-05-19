@@ -2,7 +2,7 @@
 
 namespace Dmn\Cmn\Services;
 
-use Dmn\Exceptions\Exception as ExceptionsException;
+use Dmn\Exceptions\Exception as DmnException;
 use Dmn\Exceptions\ResourceNotFoundException;
 use Elasticsearch\ClientBuilder;
 use Exception;
@@ -44,7 +44,7 @@ class Elasticsearch
      * @param array $params
      *
      * @return array
-     * @throws ExceptionsException
+     * @throws DmnException
      */
     public function search(array $params): array
     {
@@ -55,7 +55,7 @@ class Elasticsearch
             return $this->client->search($query);
         } catch (Exception $e) {
             $response = json_decode($e->getMessage(), true);
-            throw new ExceptionsException(
+            throw new DmnException(
                 $response['error']['caused_by']['reason'],
             );
         }
@@ -65,7 +65,7 @@ class Elasticsearch
      * @param array $data
      * @return array
      * @throws ResourceNotFoundException
-     * @throws ExceptionsException
+     * @throws DmnException
      */
     public function findOrFail(array $data): array
     {
@@ -82,7 +82,7 @@ class Elasticsearch
             $response = $this->client->search($builder)['hits']['hits'];
         } catch (Exception $e) {
             $response = json_decode($e->getMessage(), true);
-            throw new ExceptionsException($response['error']['reason']);
+            throw new DmnException($response['error']['reason']);
         }
 
         if (empty($response)) {
@@ -95,7 +95,7 @@ class Elasticsearch
      * @param int $id
      * @param array $body
      * @return array
-     * @throws ExceptionsException
+     * @throws DmnException
      */
     public function update(int $id, array $body): array
     {
@@ -108,8 +108,7 @@ class Elasticsearch
 
             return $this->client->update($params);
         } catch (Exception $e) {
-            $response = json_decode($e->getMessage(), true);
-            throw new ExceptionsException($response['error']);
+            throw new DmnException('Something went wrong on ES Service.', 400, $e);
         }
     }
 }
