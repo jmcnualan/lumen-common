@@ -94,19 +94,19 @@ class Elasticsearch
     /**
      * @param int $id
      * @param array $body
+     * @param array $queryParams
      * @return array
      * @throws DmnException
      */
-    public function update(int $id, array $body): array
+    public function update(int $id, array $body, array $queryParams = []): array
     {
         try {
-            $params = [
+            $pathParams = [
                 'id' => $id,
                 'index' => $this->index,
-                'body' => $body
+                'body' => $body,
             ];
-
-            return $this->client->update($params);
+            return $this->client->update(array_merge($pathParams, $queryParams));
         } catch (Exception $e) {
             throw new DmnException('Something went wrong on ES Service.', 400, $e);
         }
