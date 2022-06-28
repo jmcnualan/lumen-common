@@ -14,18 +14,18 @@ class Authorize extends BaseAuthorize
      *
      * @param \Illuminate\Http\Request $request
      * @param Closure $next
-     * @param string $ability
-     * @param array|null ...$models
+     * @param mixed ...$ability
      * @return mixed
      *
      * @throws ForbiddenException
      */
-    public function handle($request, Closure $next, $ability, ...$models)
+    public function handle($request, Closure $next, ...$ability)
     {
-        try {
-            $this->defineGate();
-            $this->gate->authorize($ability, $this->getGateArguments($request, $models));
-        } catch (AuthorizationException $exception) {
+        $this->defineGate();
+        foreach ($ability as $item) {
+            $hasAbility[] = $this->gate->allows($item);
+        }
+        if (!in_array(true, $hasAbility ?? [])) {
             throw new ForbiddenException();
         }
 

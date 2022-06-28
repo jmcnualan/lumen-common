@@ -3,3 +3,4 @@ todo
 /report
 .idea
 .phpunit.result.cache
+.DS_Store
