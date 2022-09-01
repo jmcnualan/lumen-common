@@ -9,7 +9,7 @@
         }
     ],
     "require": {
-        "dmn/exception": "^3.0"
+        "dmn/exception": "^3.0.1"
     },
     "autoload": {
         "psr-4": {

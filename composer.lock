@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f13dba403d6e23c3776398975ab175d5",
+    "content-hash": "7aa55b4240a68cad74d427dee7b8f00a",
     "packages": [
         {
             "name": "dmn/exception",
-            "version": "v3.0.0",
+            "version": "v3.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/jmcnualan/lumen-exception.git",
-                "reference": "8ece4cec2561960472a6d2801e67d6458e57f000"
+                "reference": "71a182a199b2ff345b540411295d3a775983de6b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jmcnualan/lumen-exception/zipball/8ece4cec2561960472a6d2801e67d6458e57f000",
-                "reference": "8ece4cec2561960472a6d2801e67d6458e57f000",
+                "url": "https://api.github.com/repos/jmcnualan/lumen-exception/zipball/71a182a199b2ff345b540411295d3a775983de6b",
+                "reference": "71a182a199b2ff345b540411295d3a775983de6b",
                 "shasum": ""
             },
             "require-dev": {
@@ -44,9 +44,9 @@
             "description": "Exceptions for lumen",
             "support": {
                 "issues": "https://github.com/jmcnualan/lumen-exception/issues",
-                "source": "https://github.com/jmcnualan/lumen-exception/tree/v3.0.0"
+                "source": "https://github.com/jmcnualan/lumen-exception/tree/v30.1"
             },
-            "time": "2022-03-17T06:45:42+00:00"
+            "time": "2022-09-01T07:40:33+00:00"
         }
     ],
     "packages-dev": [
@@ -8424,5 +8424,5 @@
     "prefer-lowest": false,
     "platform": [],
     "platform-dev": [],
-    "plugin-api-version": "2.2.0"
+    "plugin-api-version": "2.1.0"
 }
